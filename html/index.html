@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB | Irish Borres</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <style>
+        :root {
+            --bg-body: #ffffff;
+            --text-main: #2d2e37; 
+            --pink-vibrant: #ff2d75; 
+            --card-bg: #f8f9fa;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --border-subtle: rgba(0, 0, 0, 0.05);
+            --transition-slow: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #1a1b22;
+            --text-main: #ffffff;
+            --card-bg: #2d2e37;
+            --nav-bg: rgba(26, 27, 34, 0.8);
+            --border-subtle: rgba(255, 255, 255, 0.05);
+        }
+
+        body, html {
+            background-color: var(--bg-body);
+            color: var(--text-main); 
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth; 
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- Navbar --- */
+        .navbar-custom {
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+            width: 90%; z-index: 1000; background: var(--nav-bg);
+            backdrop-filter: blur(15px); border-radius: 50px; padding: 12px 40px;
+            border: 1px solid var(--border-subtle); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .navbar-brand-ib { font-weight: 900; font-size: 28px; letter-spacing: -3px; text-decoration: none; color: var(--text-main); transition: 0.3s; }
+        .navbar-brand-ib:hover { letter-spacing: 2px; color: var(--pink-vibrant); }
+        .navbar-brand-ib span { color: var(--pink-vibrant); }
+        .nav-link { color: var(--text-main) !important; font-size: 10px; font-weight: 900; opacity: 0.6; letter-spacing: 1px; }
+        .nav-link:hover { opacity: 1; color: var(--pink-vibrant) !important; }
+
+        .theme-toggle {
+            background: var(--card-bg); border: 1px solid var(--border-subtle);
+            color: var(--text-main); width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-slow); margin-left: 15px;
+        }
+        .theme-toggle:hover { background: var(--pink-vibrant); color: white; transform: rotate(20deg); }
+
+        /* --- Hero Section Fixes --- */
+        .hero-container { display: flex; width: 100%; height: 100vh; position: relative; }
+        .img-side { flex: 0 0 50%; background-color: var(--pink-vibrant); position: relative; overflow: hidden; z-index: 1; }
+        .img-side img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); mix-blend-mode: multiply; transition: var(--transition-slow); }
+        .img-side:hover img { filter: grayscale(0%); mix-blend-mode: normal; transform: scale(1.05); }
+
+        .name-badge {
+            position: absolute; left: 50%; top: 50%; transform: translate(-75%, -50%);
+            background: var(--bg-body); padding: 50px 80px; border-radius: 200px 0 0 200px;
+            box-shadow: -15px 15px 40px rgba(0,0,0,0.1); transition: var(--transition-slow);
+            z-index: 100; cursor: pointer; white-space: nowrap;
+        }
+        .name-badge:hover { background: var(--pink-vibrant); transform: translate(-80%, -50%); }
+        .name-badge:hover h1 { color: white; }
+        .name-badge h1 { font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900; line-height: 0.85; margin: 0; color: var(--text-main); transition: 0.3s; }
+
+        .content-side { flex: 0 0 50%; padding-left: 10%; display: flex; align-items: center; z-index: 5; }
+
+        /* --- Sections --- */
+        section { min-height: 100vh; padding: 120px 0; display: flex; align-items: center; }
+        .section-title { font-weight: 900; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 30px; }
+        .pink-text { color: var(--pink-vibrant); }
+
+        .edu-card { position: relative; overflow: hidden; border-radius: 20px; height: 350px; background: var(--pink-vibrant); margin-bottom: 20px; }
+        .edu-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; mix-blend-mode: multiply; transition: 0.5s; }
+        .edu-card:hover img { opacity: 0.8; transform: scale(1.1); }
+        .edu-info { position: absolute; bottom: 20px; left: 20px; color: white; z-index: 2; }
+
+        .hobby-box { text-align: center; padding: 40px; background: var(--card-bg); border-radius: 30px; border: 1px solid var(--border-subtle); transition: 0.3s; }
+        .hobby-box:hover { background: var(--pink-vibrant); color: white; transform: translateY(-10px); }
+        .hobby-box i { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+
+        .progress { height: 8px; background: var(--border-subtle); border-radius: 10px; margin-bottom: 25px; overflow: visible; }
+        .progress-bar { background: var(--pink-vibrant); border-radius: 10px; transition: width 1.5s ease; width: 0; }
+
+        .contact-card { 
+            background: var(--card-bg); padding: 20px 30px; border-radius: 20px; display: flex; 
+            align-items: center; gap: 20px; text-decoration: none; color: var(--text-main); 
+            margin-bottom: 15px; border: 1px solid var(--border-subtle); transition: 0.3s;
+        }
+        .contact-card:hover { background: var(--pink-vibrant); color: white; transform: translateX(10px); }
+
+        #backToTop {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: var(--pink-vibrant); color: white; border: none; border-radius: 50%;
+            display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+
+        @media (max-width: 991px) {
+            .hero-container { flex-direction: column; height: auto; }
+            .img-side { height: 40vh; flex: 0 0 100%; }
+            .content-side { padding: 40px 20px; text-align: center; justify-content: center; flex: 0 0 100%; }
+            .name-badge { position: relative; left: 0; transform: none; border-radius: 0; padding: 30px; top: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand-ib" href="#home">I<span>B</span></a>
+            <div class="collapse navbar-collapse justify-content-center">
+                <ul class="navbar-nav gap-2">
+                    <li class="nav-item"><a class="nav-link" href="#home">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">ABOUT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#education">EDUCATION</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hobbies">HOBBIES</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">SKILLS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacts">CONTACT</a></li>
+                </ul>
+            </div>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div class="hero-container">
+            <div class="img-side">
+                <img src="https://i.postimg.cc/VLjMvVKp/image-2026-02-17-220456381.png">
+            </div>
+            <div class="name-badge"><h1>Irish<br>Borres</h1></div>
+            <div class="content-side">
+                <div class="reveal-left">
+                    <p class="pink-text fw-bold">STRATEGY & MENTORSHIP</p>
+                    <p class="fs-4 opacity-75">I help brands grow through bold design and efficient systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 reveal">
+                    <h2 class="section-title">Design with <span class="pink-text">Purpose</span>.</h2>
+                    <p class="fs-5 opacity-75">With over 8 years of experience in the digital space, I've transitioned from a creative designer to a strategic consultant. My goal is to bridge the gap between aesthetic beauty and functional business logic.</p>
+                    <p class="fs-5 opacity-75">I believe that every pixel should serve a goal, and every interaction should tell a story of growth and impact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <div class="container">
+            <h2 class="section-title reveal">My <span class="pink-text">Background</span></h2>
+            <div class="row g-4">
+                <div class="col-md-4 reveal-item">
+                    <div class="edu-card">
+                        <img src="https://images.unsplash.com/photo-1523050335392-93851179ae22?q=80&w=800">
+                        <div class="edu-info"><h3>BSc Design</h3><p>University of Arts (2015-2019)</p></div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal-item">
+                    <div class="edu-card">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800">
+                        <div class="edu-info"><h3>UX Certification</h3><p>Google Design Academy</p></div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal-item">
+                    <div class="edu-card">
+                        <img src="https://images.unsplash.com/photo-1454165833767-027ffea9e77b?q=80&w=800">
+                        <div class="edu-info"><h3>Business Admin</h3><p>MBA - Global Strategy</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="hobbies">
+        <div class="container">
+            <h2 class="section-title reveal">Life Beyond <span class="pink-text">Work</span></h2>
+            <div class="row g-4">
+                <div class="col-md-3 col-6 reveal-item"><div class="hobby-box"><i class="fas fa-camera"></i><h4>Photography</h4></div></div>
+                <div class="col-md-3 col-6 reveal-item"><div class="hobby-box"><i class="fas fa-plane"></i><h4>Exploring</h4></div></div>
+                <div class="col-md-3 col-6 reveal-item"><div class="hobby-box"><i class="fas fa-guitar"></i><h4>Jazz Music</h4></div></div>
+                <div class="col-md-3 col-6 reveal-item"><div class="hobby-box"><i class="fas fa-gamepad"></i><h4>Retro Gaming</h4></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 reveal">
+                    <h2 class="section-title">My <span class="pink-text">Arsenal</span></h2>
+                    <p class="mb-1 fw-bold">Creative Direction - 95%</p>
+                    <div class="progress"><div class="progress-bar" data-target="95%"></div></div>
+                    <p class="mb-1 fw-bold">Business Strategy - 90%</p>
+                    <div class="progress"><div class="progress-bar" data-target="90%"></div></div>
+                    <p class="mb-1 fw-bold">UI/UX Design - 85%</p>
+                    <div class="progress"><div class="progress-bar" data-target="85%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacts">
+        <div class="container text-center">
+            <h2 class="section-title reveal">Let's <span class="pink-text">Talk</span></h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <a href="#" class="contact-card reveal-item"><i class="fab fa-linkedin"></i><span>LinkedIn Profile</span></a>
+                    <a href="mailto:joe@wilson.com" class="contact-card reveal-item"><i class="fas fa-envelope"></i><span>Email Me Directly</span></a>
+                    <a href="#" class="contact-card reveal-item"><i class="fab fa-instagram"></i><span>Follow the Journey</span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        });
+
+        // ScrollReveal
+        ScrollReveal().reveal('.reveal', { distance: '50px', duration: 1000, origin: 'bottom' });
+        ScrollReveal().reveal('.reveal-left', { distance: '80px', duration: 1000, origin: 'left' });
+        ScrollReveal().reveal('.reveal-item', { distance: '40px', duration: 1000, origin: 'bottom', interval: 200 });
+
+        // Skills Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.progress-bar').forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-target');
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(document.getElementById('skills'));
+
+        // Back to Top
+        const btt = document.getElementById("backToTop");
+        window.onscroll = () => btt.style.display = window.scrollY > 400 ? 'flex' : 'none';
+        btt.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+    </script>
+</body>
+</html>
